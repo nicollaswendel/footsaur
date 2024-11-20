@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://rov7n2psb1rs"]
+
+[ext_resource type="Script" path="res://Scripts/ball.gd" id="1_o4voh"]
+[ext_resource type="Texture2D" uid="uid://61nwfvdlfalm" path="res://Sprites/Items/ball.png" id="1_qn5hc"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_djmxa"]
+friction = 0.0
+bounce = 0.9
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_scrpi"]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ojk70"]
+atlas = ExtResource("1_qn5hc")
+region = Rect2(0, 0, 379, 379)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ync0e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ojk70")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4i1v6"]
+radius = 21.0
+
+[node name="Ball" type="RigidBody2D"]
+mass = 0.01
+physics_material_override = SubResource("PhysicsMaterial_djmxa")
+angular_damp = -1.0
+script = ExtResource("1_o4voh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_scrpi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-3.55271e-15, -5.04871e-29)
+scale = Vector2(0.154436, 0.154436)
+sprite_frames = SubResource("SpriteFrames_ync0e")
+animation = &"Idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_4i1v6")
+debug_color = Color(0.805702, 0.414122, 0.0934624, 0.42)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
